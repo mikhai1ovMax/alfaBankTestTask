@@ -1,7 +1,8 @@
 package com.maximmikhailov.alfabanktesttask.service;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.maximmikhailov.alfabanktesttask.client.CurrencyClient;
-import com.maximmikhailov.alfabanktesttask.model.ExchangeRates;
+import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -27,20 +28,23 @@ public class CurrencyService {
     }
 
     public Double getCurrentRate(String currency){
-        ExchangeRates exchangeRates = currencyClient.getCurrentRate(appId, base);
-        return exchangeRates.getRates().get(currency);
+        return extractCurrencyFromJSON(currencyClient.getCurrentRate(appId, base), currency);
     }
 
     public Double getYesterdayRate(String currency){
         String date = LocalDate.now().minus(Period.ofDays(1)).format(DateTimeFormatter.ISO_LOCAL_DATE);
-        ExchangeRates exchangeRates = currencyClient.getOldRate(date, appId, base);
-        return exchangeRates.getRates().get(currency);
+        return extractCurrencyFromJSON(currencyClient.getOldRate(date, appId, base), currency);
     }
 
     public boolean isCurrentRateBigger(String currency){
         if(getCurrentRate(currency) >= getYesterdayRate(currency))
             return true;
         return false;
+    }
+
+    @SneakyThrows
+    private Double extractCurrencyFromJSON(String JSONWithCurrencies, String currency){
+        return new ObjectMapper().readTree(JSONWithCurrencies).path("rates").path(currency).asDouble();
     }
 
 }

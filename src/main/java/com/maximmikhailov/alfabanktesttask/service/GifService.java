@@ -1,6 +1,5 @@
 package com.maximmikhailov.alfabanktesttask.service;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.maximmikhailov.alfabanktesttask.client.GifClient;
 import lombok.SneakyThrows;
@@ -30,7 +29,7 @@ public class GifService {
     }
 
     @SneakyThrows
-    private String extractUrl(String jsonWithGif) {
-        return new ObjectMapper().readTree(jsonWithGif).path("data").path("images").path("original").path("url").asText();
+    private String extractUrl(String JSONWithGif) {
+        return new ObjectMapper().readTree(JSONWithGif).path("data").path("images").path("original").path("url").asText();
     }
 }
