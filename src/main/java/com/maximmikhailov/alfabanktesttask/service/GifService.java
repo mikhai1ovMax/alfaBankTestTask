@@ -10,8 +10,8 @@ import org.springframework.stereotype.Service;
 @Service
 public class GifService {
 
-    CurrencyService currencyService;
-    GifClient gifClient;
+    private CurrencyService currencyService;
+    private GifClient gifClient;
 
     @Value("${giphy.apiKey}")
     String apiKey;
@@ -24,12 +24,12 @@ public class GifService {
 
     public String getGifURL(String currency) {
         if (currencyService.isCurrentRateBigger(currency))
-            return extractUrl(gifClient.getJsonWithGifUrl(apiKey, "rich"));
-        return extractUrl(gifClient.getJsonWithGifUrl(apiKey, "broke"));
+            return extractURL(gifClient.getJsonWithGifURL(apiKey, "rich"));
+        return extractURL(gifClient.getJsonWithGifURL(apiKey, "broke"));
     }
 
     @SneakyThrows
-    private String extractUrl(String JSONWithGif) {
+    private String extractURL(String JSONWithGif) {
         return new ObjectMapper().readTree(JSONWithGif).path("data").path("images").path("original").path("url").asText();
     }
 }

@@ -10,12 +10,10 @@ import org.springframework.web.servlet.view.RedirectView;
 @RequestMapping(value = "api/v1/gifs")
 public class GifRestController {
 
-    CurrencyService currencyService;
-    GifService gifService;
+    private GifService gifService;
 
     @Autowired
-    public GifRestController(CurrencyService currencyService, GifService gifService) {
-        this.currencyService = currencyService;
+    public GifRestController(GifService gifService) {
         this.gifService = gifService;
     }
 
