@@ -27,7 +27,6 @@ public class CurrencyService {
     }
 
     public Double getCurrentRate(String currency){
-
         ExchangeRates exchangeRates = currencyClient.getCurrentRate(appId, base);
         return exchangeRates.getRates().get(currency);
     }
