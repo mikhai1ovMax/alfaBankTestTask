@@ -46,6 +46,5 @@ class GifServiceTest {
 
         when(currencyService.isCurrentRateBigger("RUB")).thenReturn(false);
         assertEquals(brokeGifURL, gifService.getGifURL("RUB"));
-
     }
 }
